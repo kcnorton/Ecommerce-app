@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { getProducts } from '../api/products';
 
 const ProductsView = () => {
-    const [products, setProducts] = useState();
-
-    useEffect(() => {
-        fetch('https://fakestoreapi.com/products?limit=5')
-            .then((res) => res.json())
-            .then((json) => setProducts(json));
-    }, []);
+    const products = getProducts();
 
     return (
         <>
@@ -15,16 +10,27 @@ const ProductsView = () => {
             <div>
                 <table>
                     <thead>
-                        <td key={2} id={'2'}>
-                            table header
-                        </td>
+                        <tr>
+                            {products?.length > 0 &&
+                                Object.keys(products[0]).map((prop) => (
+                                    <th key={prop}>{prop}</th>
+                                ))}
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td key={1} id={'1'}>
-                                table data
-                            </td>
-                        </tr>
+                        {products.map((product) => {
+                            return (
+                                <tr key={product.id}>
+                                    <td>{product.id}</td>
+                                    <td>{product.title}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.description}</td>
+                                    <td>{product.category}</td>
+                                    <td>{product.image}</td>
+                                    <td>{product.rating.rate}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
