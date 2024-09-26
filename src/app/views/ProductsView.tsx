@@ -26,7 +26,9 @@ const ProductsView = () => {
                                     <td>{product.price}</td>
                                     <td>{product.description}</td>
                                     <td>{product.category}</td>
-                                    <td>{product.image}</td>
+                                    <td>
+                                        <img src={product.image} />
+                                    </td>
                                     <td>{product.rating.rate}</td>
                                 </tr>
                             );
