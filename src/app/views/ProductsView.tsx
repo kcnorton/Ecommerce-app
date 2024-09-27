@@ -50,12 +50,12 @@ const ProductsView = () => {
         (sortBy === prop || asc) && setAsc(!asc);
     };
     return (
-        <>
-            <div>Products</div>
-            <div>
-                <table>
+        <div className="flex flex-col items-center justify-center py-10 min-w-fit text-sm">
+            <div className="py-4">Products</div>
+            <div className="py-4 flex">
+                <table className="table-fixed mx-4 max-w-screen-md xs:max-w-fit">
                     <thead>
-                        <tr>
+                        <tr className="border">
                             {products?.length > 0 &&
                                 Object.keys(products[0]).map((prop) => (
                                     <th
@@ -69,26 +69,44 @@ const ProductsView = () => {
                                 ))}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="border">
                         {products.map((product) => {
                             return (
-                                <tr key={product.id}>
-                                    <td>{product.id}</td>
-                                    <td>{product.title}</td>
-                                    <td>{product.price}</td>
-                                    <td>{product.description}</td>
-                                    <td>{product.category}</td>
-                                    <td>
-                                        <img src={product.image} />
+                                <tr
+                                    key={product.id}
+                                    className="hover:bg-slate-100"
+                                >
+                                    <td className="td-class">{product.id}</td>
+                                    <td className="td-class">
+                                        {product.title}
                                     </td>
-                                    <td>{product.rating.rate}</td>
+                                    <td className="td-class">
+                                        {product.price}
+                                    </td>
+                                    <td className="td-class">
+                                        {product.description}
+                                    </td>
+                                    <td className="td-class">
+                                        {product.category}
+                                    </td>
+                                    <td className="td-class">
+                                        <img
+                                            alt="Product image"
+                                            src={product.image}
+                                            width="80px"
+                                            height="80px"
+                                        />
+                                    </td>
+                                    <td className="td-class">
+                                        {product.rating.rate}
+                                    </td>
                                 </tr>
                             );
                         })}
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
 };
 
