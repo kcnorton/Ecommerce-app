@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { getProducts } from '../api/products';
 import { Products } from '../types/Products';
+import { useRouter } from 'next/navigation';
 
 const ProductsView = () => {
     // the product data is returned in asc order by id
     const [asc, setAsc] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('id');
     const products = getProducts();
+
+    const router = useRouter();
 
     const sortColumn = (prop: keyof Products) => {
         if (asc || sortBy !== prop) {
@@ -75,6 +78,9 @@ const ProductsView = () => {
                                 <tr
                                     key={product.id}
                                     className="hover:bg-slate-100"
+                                    onClick={(e) =>
+                                        router.push(`/product/${product.id}`)
+                                    }
                                 >
                                     <td className="td-class">{product.id}</td>
                                     <td className="td-class">
