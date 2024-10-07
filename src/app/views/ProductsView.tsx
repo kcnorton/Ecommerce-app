@@ -7,8 +7,14 @@ const ProductsView = () => {
     // the product data is returned in asc order by id
     const [asc, setAsc] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('id');
-    const products = getProducts();
+    const [search, setSearch] = useState<string>('');
+    const data = getProducts();
+    const [products, setProducts] = useState<Products[]>([]);
     const router = useRouter();
+
+    React.useEffect(() => {
+        setProducts(data);
+    }, [data]);
 
     const sortColumn = (prop: keyof Products) => {
         if (asc || sortBy !== prop) {
@@ -51,8 +57,43 @@ const ProductsView = () => {
         setSortBy(prop);
         (sortBy === prop || asc) && setAsc(!asc);
     };
+
+    const performSearch = (search: string) => {
+        const searchResult = products.filter(
+            (product) =>
+                product.description.includes(search) ||
+                product.category.includes(search) ||
+                product.title.includes(search)
+        );
+        setProducts(searchResult);
+    };
+
     return (
         <div className="flex flex-col items-center justify-center py-10 min-w-fit text-sm">
+            <div className="flex gap-3">
+                <input
+                    placeholder="Search"
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                />
+                <button
+                    className="rounded p-3 bg-cyan-200"
+                    onClick={() => performSearch(search)}
+                >
+                    Search
+                </button>
+                {search && (
+                    <button
+                        className="rounded p-3 bg-red-100"
+                        onClick={() => {
+                            setSearch('');
+                            setProducts(data);
+                        }}
+                    >
+                        Clear
+                    </button>
+                )}
+            </div>
             <div className="py-4">Products</div>
             <div className="py-4 flex">
                 <table className="table-fixed mx-4 max-w-screen-md xs:max-w-fit">
