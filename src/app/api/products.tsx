@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Products } from '../types/Products';
+import { Products } from '../types/products';
 
 const fetchProducts = (): Promise<Products[]> =>
     fetch('https://fakestoreapi.com/products?limit=5')

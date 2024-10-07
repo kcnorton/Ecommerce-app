@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getProducts } from '../api/products';
-import { Products } from '../types/Products';
+import { Products } from '../types/products';
 import { useRouter } from 'next/navigation';
 
 const ProductsView = () => {
@@ -8,7 +8,6 @@ const ProductsView = () => {
     const [asc, setAsc] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('id');
     const products = getProducts();
-
     const router = useRouter();
 
     const sortColumn = (prop: keyof Products) => {
@@ -66,6 +65,7 @@ const ProductsView = () => {
                                         onClick={(e) =>
                                             sortColumn(prop as keyof Products)
                                         }
+                                        className="hover:cursor-pointer"
                                     >
                                         {prop}
                                     </th>
@@ -77,7 +77,7 @@ const ProductsView = () => {
                             return (
                                 <tr
                                     key={product.id}
-                                    className="hover:bg-slate-100"
+                                    className="hover:bg-slate-100 hover:cursor-pointer"
                                     onClick={(e) =>
                                         router.push(`/product/${product.id}`)
                                     }
