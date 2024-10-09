@@ -1,18 +1,19 @@
-import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { getProducts } from '../api/products';
 
 const SingleProductView = () => {
-    const router = useRouter();
     const { id } = useParams<{ id: string }>();
     const products = getProducts();
     const formattedId = parseInt(id);
     const product = products.find((product) => product?.id === formattedId);
 
-    const [count, setCount] = React.useState(1);
-    const [isOn, setIsOn] = React.useState(false);
-    const [text, setText] = React.useState('');
-    const [comments, setComments] = React.useState<{ text: string }[]>([]);
+    const [count, setCount] = useState(1);
+    const [isOn, setIsOn] = useState(false);
+    const [text, setText] = useState('');
+    const [comments, setComments] = useState<{ text: string }[]>([]);
+    const [rating, setRating] = useState(0);
+    const stars = [1, 2, 3, 4, 5];
 
     const addComment = () => {
         if (text) {
@@ -80,6 +81,22 @@ const SingleProductView = () => {
                         </li>
                     ))}
                 </ul>
+                <h1>Star Rating</h1>
+                {stars.map((starValue, index) => {
+                    return (
+                        <span
+                            key={index}
+                            onClick={() => setRating(starValue)}
+                            className={`cursor-pointer mr-3 text-2xl ${
+                                starValue <= rating
+                                    ? `text-yellow-300`
+                                    : `text-slate-400`
+                            }`}
+                        >
+                            *
+                        </span>
+                    );
+                })}
             </div>
         </div>
     );
