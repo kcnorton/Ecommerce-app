@@ -8,13 +8,13 @@ const ProductsView = () => {
     const [asc, setAsc] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('id');
     const [search, setSearch] = useState<string>('');
-    const data = getProducts();
+    const productData = getProducts();
     const [products, setProducts] = useState<Products[]>([]);
     const router = useRouter();
 
     React.useEffect(() => {
-        setProducts(data);
-    }, [data]);
+        setProducts(productData);
+    }, [productData]);
 
     const sortColumn = (prop: keyof Products) => {
         if (asc || sortBy !== prop) {
@@ -58,12 +58,13 @@ const ProductsView = () => {
         (sortBy === prop || asc) && setAsc(!asc);
     };
 
-    const performSearch = (search: string) => {
-        const searchResult = products.filter(
+    const performSearch = (value: string) => {
+        setSearch(value);
+        const searchResult = productData.filter(
             (product) =>
-                product.description.includes(search) ||
-                product.category.includes(search) ||
-                product.title.includes(search)
+                product.description.includes(value) ||
+                product.category.includes(value) ||
+                product.title.includes(value)
         );
         setProducts(searchResult);
     };
@@ -74,20 +75,20 @@ const ProductsView = () => {
                 <input
                     placeholder="Search"
                     value={search}
-                    onChange={(event) => setSearch(event.target.value)}
+                    onChange={(event) => performSearch(event.target.value)}
                 />
-                <button
+                {/* <button
                     className="rounded p-3 bg-cyan-200"
                     onClick={() => performSearch(search)}
                 >
                     Search
-                </button>
+                </button> */}
                 {search && (
                     <button
                         className="rounded p-3 bg-red-100"
                         onClick={() => {
                             setSearch('');
-                            setProducts(data);
+                            setProducts(productData);
                         }}
                     >
                         Clear
