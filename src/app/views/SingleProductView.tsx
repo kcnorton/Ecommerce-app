@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useGetProducts } from '../api/products';
 
 const SingleProductView = () => {
+    const router = useRouter();
     const { id } = useParams<{ id: string }>();
     const { data: products } = useGetProducts();
     const formattedId = parseInt(id);
@@ -61,6 +62,12 @@ const SingleProductView = () => {
                 </button>
             </div>
             <div className="m-2">
+                <button
+                    className="bg-cyan-200 rounded p-2"
+                    onClick={() => router.push('/checkout')}
+                >
+                    Go to Checkout
+                </button>
                 <h1>Comments</h1>
                 <input
                     value={text}
