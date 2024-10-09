@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { getProducts } from '../api/products';
+import { useGetProducts } from '../api/products';
 import { Products } from '../types/products';
 import { useRouter } from 'next/navigation';
 
 const ProductsView = () => {
+    const router = useRouter();
+
     // the product data is returned in asc order by id
     const [asc, setAsc] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('id');
     const [search, setSearch] = useState<string>('');
-    const productData = getProducts();
+    const { data: productData, isLoading } = useGetProducts();
     const [products, setProducts] = useState<Products[]>([]);
-    const router = useRouter();
 
     React.useEffect(() => {
-        setProducts(productData);
-    }, [productData]);
+        !isLoading && setProducts(productData);
+    }, [isLoading]);
 
     const sortColumn = (prop: keyof Products) => {
         if (asc || sortBy !== prop) {

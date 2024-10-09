@@ -6,10 +6,10 @@ const fetchProducts = (): Promise<Products[]> =>
         .then((res) => res.json())
         .then((json) => json);
 
-export const getProducts = () => {
-    const { data } = useQuery({
+export const useGetProducts = () => {
+    const { data, isLoading } = useQuery({
         queryKey: ['products'],
         queryFn: fetchProducts,
     });
-    return data || [];
+    return { data: data || [], isLoading: isLoading } || [];
 };

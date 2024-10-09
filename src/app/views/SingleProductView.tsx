@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getProducts } from '../api/products';
+import { useGetProducts } from '../api/products';
 
 const SingleProductView = () => {
     const { id } = useParams<{ id: string }>();
-    const products = getProducts();
+    const { data: products } = useGetProducts();
     const formattedId = parseInt(id);
     const product = products.find((product) => product?.id === formattedId);
 
